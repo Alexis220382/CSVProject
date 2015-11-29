@@ -16,6 +16,8 @@ public class CSVFileDAO {
     private PreparedStatement getCSVFileSt;
     private PreparedStatement addDataFromCSVFileSt;
     private PreparedStatement setDataFromCSVFileSt;
+    private PreparedStatement removeDataFromCSVFileSt;
+    private PreparedStatement removeAllDataFromCSVFileSt;
     private ResultSet rs;
 
     public CSVFileDAO() throws MyException {
@@ -88,6 +90,31 @@ public class CSVFileDAO {
         return csvFile;
     }
 
+    public void removeCSVFileBySurname(String surname) {
+        try {
+            if (removeDataFromCSVFileSt == null) {
+                removeDataFromCSVFileSt = con.prepareStatement(prop.getProperty("removeDataFromCSVFileSt"));
+            }
+            removeDataFromCSVFileSt.setString(1, surname);
+
+            removeDataFromCSVFileSt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void removeCSVFile() {
+        try {
+            if (removeAllDataFromCSVFileSt == null) {
+                removeAllDataFromCSVFileSt = con.prepareStatement(prop.getProperty("removeAllDataFromCSVFileSt"));
+            }
+
+            removeAllDataFromCSVFileSt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void conCloseCSVFile() {
         try {
             if (getCSVFileSt != null) {
@@ -98,6 +125,12 @@ public class CSVFileDAO {
             }
             if (setDataFromCSVFileSt != null) {
                 setDataFromCSVFileSt.close();
+            }
+            if (removeDataFromCSVFileSt != null) {
+                removeDataFromCSVFileSt.close();
+            }
+            if (removeAllDataFromCSVFileSt != null) {
+                removeAllDataFromCSVFileSt.close();
             }
             con.close();
         } catch (SQLException ex) {

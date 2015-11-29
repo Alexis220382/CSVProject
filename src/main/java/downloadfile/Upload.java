@@ -9,10 +9,7 @@ import java.util.List;
 
 import com.ibm.useful.http.*;
 import dao.CSVFileDAO;
-import dao.PagingDAO;
 import dto.CSVFile;
-import myexception.MyException;
-import progress.Progress;
 import utils.UtilReadCSVFile;
 
 @WebServlet(name = "upload", urlPatterns = {"/upload"})
@@ -22,18 +19,18 @@ public class Upload extends HttpServlet {
 
 		UtilReadCSVFile utilCSVFile = new UtilReadCSVFile();
 		CSVFileDAO csvFileDAO = null;
-		List<CSVFile> csvFiles;
+		List<CSVFile> csvFiles = null;
 
 		try {
 
 			csvFileDAO = new CSVFileDAO();
-			if(isMultipartFormat(request)){
+			String fileDescription = null;
+			FileData tempFile = null;
+			HttpSession session = request.getSession();
+
+			if(isMultipartFormat(request)) {
 
 				PostData multidata = new PostData(request);
-
-				String fileDescription = null;
-				FileData tempFile = null;
-				HttpSession session = request.getSession();
 
 				if (multidata.getParameter("description") != null
 						&& multidata.getFileData("file_send") != null) {
@@ -46,29 +43,36 @@ public class Upload extends HttpServlet {
 
 				tempFile.setFileName("contacts.csv");
 
-				if(tempFile != null){
+				if (tempFile != null) {
 					saveFile(tempFile);
 				}
 
 				csvFiles = utilCSVFile.readCSVFile("d:\\" + tempFile.getFileName());
 
-				List surname = new ArrayList();
-				for (int i=0; i<csvFileDAO.getCSVFile().size();i++){
-					surname.add(csvFileDAO.getCSVFile().get(i).getSurname());
+				//Составление списка всех фамилий из базы данных
+				List<String> surname = new ArrayList<String>();
+				List<String> same_surname = new ArrayList<String>();
+				for(CSVFile csvFile : csvFileDAO.getCSVFile()){
+					surname.add(csvFile.getSurname());
 				}
 
 				for(CSVFile csvFile : csvFiles){
 					if(surname.contains(csvFile.getSurname())){
 						csvFileDAO.setCSVFile(csvFile);
+						same_surname.add(csvFile.getSurname());
 					}else{
 						csvFileDAO.addDataFromCSVFile(csvFile);
 					}
+					if(!surname.contains(csvFile.getSurname())){
+						request.setAttribute("no", "не ");
+					}
 				}
+
+				request.setAttribute("updated", same_surname);
 
 				if(tempFile != null){
 					removeFile(tempFile);
 				}
-
 
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 

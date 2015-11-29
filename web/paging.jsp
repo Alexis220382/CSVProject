@@ -31,7 +31,7 @@
     <label>Страница: ${pages}</label>
     <p><form action="paging">
         <input type="submit" name="remove_all" value="Очистить телефонную книгу" /><br />
-        <label>Введите фамилию контакта, который хотите удалить: </label><input type="text" name="surname" />
+        <label>Введите фамилию контакта, который хотите удалить: </label><input type="text" name="remove_surname" />
         <input type="submit" name="remove_contact" value="Удалить контакт" />
     </form></p>
     <p><a href="index.jsp">В главное меню</a></p>

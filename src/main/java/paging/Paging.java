@@ -1,7 +1,8 @@
 package paging;
 
+import dao.CSVFileDAO;
 import dao.PagingDAO;
-import progress.Progress;
+import dto.CSVFile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebServlet(name = "paging", urlPatterns = {"/paging"})
@@ -20,12 +23,24 @@ public class Paging extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PagingDAO pagingDAO = null;
+        CSVFileDAO csvFileDAO = null;
         int currentPageNumber;
         int begin_item = 0;
 
         try {
             HttpSession session = request.getSession();
             pagingDAO = new PagingDAO();
+            csvFileDAO = new CSVFileDAO();
+
+            //Удалить все контакты из телефонной книги
+            if(request.getParameter("remove_all") != null){
+                csvFileDAO.removeCSVFile();
+            }
+
+            //Удалить контакт с определенной фамилией
+            if(request.getParameter("remove_contact") != null){
+                csvFileDAO.removeCSVFileBySurname(request.getParameter("remove_surname"));
+            }
 
             //Установка значения "количества строк на странице"
             //и помещение этого значения в сессию
@@ -82,6 +97,7 @@ public class Paging extends HttpServlet {
             System.out.println(e.toString());
         }finally {
             pagingDAO.conClosePaging();
+            csvFileDAO.conCloseCSVFile();
         }
     }
 

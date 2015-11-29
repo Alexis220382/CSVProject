@@ -31,9 +31,8 @@ public class PagingDAO {
         List<CSVFile> csvFiles = new LinkedList<CSVFile>();
         try {
             if (getAllSt == null) {
-                getAllSt = con.prepareStatement(
-                        "SELECT name, surname, login, email, phoneNumber FROM csv ORDER BY "
-                                +column+" LIMIT "+begin_item+","+rows_on_page);
+                getAllSt = con.prepareStatement("SELECT name, surname, login, email, phoneNumber FROM csv ORDER BY "
+                        +column+" LIMIT "+begin_item+","+rows_on_page);
             }
             rs = getAllSt.executeQuery();
             CSVFile csvFile = null;
