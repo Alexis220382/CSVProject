@@ -1,7 +1,6 @@
 package dao;
 
 import dto.CSVFile;
-import myexception.MyException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,13 +19,12 @@ public class CSVFileDAO {
     private PreparedStatement removeAllDataFromCSVFileSt;
     private ResultSet rs;
 
-    public CSVFileDAO() throws MyException {
+    public CSVFileDAO(){
         try {
             prop.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
             con = new UtilJDBC().getConnection();
         }catch (Exception e){
             e.printStackTrace();
-            throw new MyException("\"Ошибка!\\nОтсутствует соединение с базой данных\"");
         }
     }
 

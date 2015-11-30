@@ -26,27 +26,6 @@ public class UtilReadCSVFile {
             list.add(csvFile);
         }
         csvReader.close();
-//
-//
-//
-//
-//
-//        CsvReader reader = new CsvReader(PATH);
-//        List<CSVFile> list = new ArrayList<CSVFile>();
-//        CSVFile csvFile = null;
-//        reader.readHeaders();
-//        while (reader.readRecord()) {
-//            csvFile = new CSVFile(
-//                    Integer.parseInt(reader.get("id")),
-//                    reader.get("name"),
-//                    reader.get("surname"),
-//                    reader.get("login"),
-//                    reader.get("email"),
-//                    reader.get("phone_number"));
-//            list.add(csvFile);
-//
-//        }
-//        reader.close();
         return list;
     }
 }

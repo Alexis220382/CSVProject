@@ -4,6 +4,7 @@
 <head>
     <title>CSV import</title>
 </head>
+    <label>${message}</label>
     <form name="sendform" action="/upload" method="post" enctype="multipart/form-data">
         <input name="description" type="hidden"><br />
         <label>Нажмите кнопку "Обзор..." и выберите файл для импорта контактов</label><br />
@@ -16,8 +17,7 @@
     </form>
     <label><b>При импорте ${no}обновлены контакты: </b></label><br />
     <c:forEach var="s" items="${updated}">
-                <b><c:out value="${s}" /></b><br />
+                <b><c:out value="- ${s}" /></b><br />
     </c:forEach>
-
 </body>
 </html>

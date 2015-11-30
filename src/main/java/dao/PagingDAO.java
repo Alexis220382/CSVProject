@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,7 +28,7 @@ public class PagingDAO {
     }
 
     public List<CSVFile> getAllSortedPagingCSVFile(String column, int begin_item, int rows_on_page){
-        List<CSVFile> csvFiles = new LinkedList<CSVFile>();
+        List<CSVFile> csvFiles = new ArrayList<CSVFile>();
         try {
             if (getAllSt == null) {
                 getAllSt = con.prepareStatement("SELECT name, surname, login, email, phoneNumber FROM csv ORDER BY "

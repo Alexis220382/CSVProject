@@ -2,7 +2,6 @@ package dto;
 
 public class CSVFile {
 
-    private int id;
     private String name;
     private String surname;
     private String login;
@@ -15,14 +14,6 @@ public class CSVFile {
         this.login = login;
         this.email = email;
         this.phoneNumber = phoneNumber;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

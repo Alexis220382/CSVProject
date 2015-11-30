@@ -1,6 +1,6 @@
 package dao;
 
-import myexception.MyException;
+import myexception.ConnectDBException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ public class UtilJDBC {
 
     private Properties prop = new Properties();
 
-    public Connection getConnection() throws MyException {
+    public Connection getConnection() throws ConnectDBException {
         try {
             prop.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
             Class.forName(prop.getProperty("Driver")).newInstance();
@@ -18,7 +18,7 @@ public class UtilJDBC {
                     prop.getProperty("user"), prop.getProperty("password"));
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new MyException("Ошибка!\nОтсутствует соединение с базой данных");
+            throw new ConnectDBException("Ошибка!\nОтсутствует соединение с базой данных");
         }
     }
 
